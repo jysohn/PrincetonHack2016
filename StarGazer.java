@@ -81,11 +81,13 @@ public class StarGazer {
             ConstellationFinder constellationFinder = new ConstellationFinder(starFinder.getStars(P));
             Constellation user = new Constellation(constellationFinder.getStarAngles(), "User");
             int anglesCorrect = 0;
-            for (int j = 0; j < game.constellations[i].starAngles.length; j++) {
-                if (game.closeEnough(user.starAngles, game.constellations[i].starAngles[j])) {
-                    anglesCorrect++;
+                for (int j = 0; j < game.constellations[i].starAngles.length; j++) {
+                    for (int k = 0; k < user.starAngles.length; k++) {
+                       if (game.closeEnough(user.starAngles[k], game.constellations[i].starAngles[j])) {
+                           anglesCorrect++;
+                       }
+                    }
                 }
-            }
             if (anglesCorrect/game.constellations[i].starAngles.length > THRESHOLD) {
                 constellationsCorrect++;
                 StdOut.println("correct");
