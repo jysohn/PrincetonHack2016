@@ -15,11 +15,11 @@ public class StarGazer {
     public Constellation cygnus = new Constellation(cygnusAngles, "Cygnus");
     public static double[] cancerAngles = {1.0270418395139542, 1.6527437286189586, 2.516252188844429, 3.5035111570973787, 4.205222283034458, 5.151419638873056, 7.706713244208261, 7.936739496227887, 8.381283509116223, 9.082994635053238, 9.565615234382907, 9.589483224846985, 11.58015249362072, 12.564822002840845, 14.096404682465032, 14.120036221458205, 15.081074191685104, 15.994348089130668, 16.31802300534414, 16.770044285875258, 17.272328478591227, 17.970766733963128, 19.28629647471952, 20.665387606717676, 23.203030856511436, 26.661226685305856, 29.31548846561138, 30.866448968340286, 32.818999622708795, 37.80743406381171, 39.460177792430684, 45.309836554742056, 47.39691728865862, 48.813347711839455, 55.41763414857593, 55.77820079777484, 57.445779831015535, 63.12434739278422, 66.10954418089469, 67.13658602040853, 71.56581605247374, 72.68996262716718, 76.08302175529363, 80.64881068752696, 83.78973499950193, 93.35535023388488, 119.87443460085164, 136.56447531293043, 137.5915171524443, 141.71589495180348, 142.74293679131736, 151.14751902778804, 154.84867220500854, 156.29893866666106, 156.33798008315208, 158.35218336210593, 159.47675471162142, 168.55974934667478, 172.33232817228279, 177.32021443186719};
     public Constellation cancer = new Constellation(cancerAngles, "Cancer");
-    public Constellation[] constellations = {ursaMajor, orion, /*leo,*/ cygnus, cancer};
+    public Constellation[] constellations = {/*ursaMajor,*/ orion, /*leo,*/ /*cygnus,*/ cancer};
     
-    public static double TAU = 120.0;
+    public static double TAU = 150.0;
     public static int P = 20;
-    public static double E = .0005;
+    public static double E = .00005;
     public static double THRESHOLD = .999;
     
     public StarGazer() {
@@ -27,19 +27,37 @@ public class StarGazer {
         int constellationsCorrect = 0;
     }
     
-    public static boolean closeEnough(double[] a, double key) {
-        if (key - ceilSearch(a, 0, a.length-1, key) < E) return true;
-        else if (floorSearch(a, 0, a.length-1, key) - key < E) return true;
-        else return false;
+    public static boolean closeEnough(double a, double key) {
+        if (key - a < E) return true;
+        if (a - key < E) return true;
+        return false;
     }
     
-    public static double floorSearch(double a[], int low, int high, double x)
+    /*private static double findLeast(double[] a) {
+     double least = 99999;
+        for (double d : a) {
+            if (d < least)
+                least = d;
+        }
+        return least;
+    }
+     
+    private static double findMost(double[] a) {
+        double most = 0;
+        for (double d : a) {
+            if (d > most)
+                most = d;
+        }
+        return most;
+    }
+        
+    public static double floorSearch(double a[], double low, double high, double x)
     {
         if (low > high) {
             return low;
         }
         
-        int mid = (low + high) / 2;
+        int mid = (int) Math.round((low + high) / 2);
         if (a[mid] > x) {
             return floorSearch(a, low, mid - 1, x);
         }
@@ -52,12 +70,12 @@ public class StarGazer {
         
     }
     
-    public static double ceilSearch(double a[], int low, int high, double x)
+    public static double ceilSearch(double a[], double low, double high, double x)
     {
         if (low > high){
             return high;
         }
-        int mid = (low + high) / 2;
+        int mid = (int) Math.round((low + high) / 2);
         if (a[mid] > x) {
             return ceilSearch(a, low, mid - 1, x);
         }
@@ -67,7 +85,7 @@ public class StarGazer {
         else {
             return mid;
         }
-    }
+    }*/
     
     public static void main(String[] args) {
         
@@ -81,13 +99,13 @@ public class StarGazer {
             ConstellationFinder constellationFinder = new ConstellationFinder(starFinder.getStars(P));
             Constellation user = new Constellation(constellationFinder.getStarAngles(), "User");
             int anglesCorrect = 0;
-                for (int j = 0; j < game.constellations[i].starAngles.length; j++) {
-                    for (int k = 0; k < user.starAngles.length; k++) {
-                       if (game.closeEnough(user.starAngles[k], game.constellations[i].starAngles[j])) {
-                           anglesCorrect++;
-                       }
+            for (int j = 0; j < game.constellations[i].starAngles.length; j++) {
+                for (int k = 0; k < user.starAngles.length; k++) {
+                    if (game.closeEnough(user.starAngles[k], game.constellations[i].starAngles[j])) {
+                        anglesCorrect++;
                     }
                 }
+            }
             if (anglesCorrect/game.constellations[i].starAngles.length > THRESHOLD) {
                 constellationsCorrect++;
                 StdOut.println("correct");

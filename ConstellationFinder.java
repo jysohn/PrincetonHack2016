@@ -17,7 +17,7 @@ public class ConstellationFinder {
         starAngles = findStarAngles(stars);       
     }
     
-    private double[] findStarAngles(Blob[] stars) {
+    public double[] findStarAngles(Blob[] stars) {
         double[] angles = new double[(stars.length)*(stars.length -1)*(stars.length-2)/2];
         int counter = 0;
         for (int i = 0; i < stars.length; i++) {
@@ -37,7 +37,7 @@ public class ConstellationFinder {
     }
     
     public double[] getStarAngles() {
-        return starAngles;
+        return findStarAngles(stars);
     }
     
     public Blob[] getStars() {
