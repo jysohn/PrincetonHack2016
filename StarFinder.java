@@ -103,7 +103,7 @@ public class StarFinder {
         StdDraw.setPenColor(Color.WHITE);
         for (Blob b : stars) {
             StdOut.println(b);
-            StdDraw.point(b.x(), b.y());
+            StdDraw.point(b.x(), -b.y());
         }
         
       /*  StdOut.println();
